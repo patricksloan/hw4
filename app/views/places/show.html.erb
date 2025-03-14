@@ -2,9 +2,20 @@
 
 <h2>My Entries</h2>
 <% for entry in @entries %>
-  <h3><%= entry["title"] %></h3>
-  <h4><%= entry["occurred_on"] %></h4>
-  <p><%= entry["description"] %></p>
+  <%# Only show entries for the current logged-in user %>
+  <% if entry["user_id"] == session["user_id"] %>
+    <h3><%= entry["title"] %></h3>
+    <h4><%= entry["occurred_on"] %></h4>
+    <p><%= entry["description"] %></p>
+
+    <%# Check if there's an uploaded image %>
+    <% if entry.uploaded_image.attached? %>
+      <p>Uploaded Image:</p>
+      <%= image_tag entry.uploaded_image, width: "300" %> <%# Display image with a width of 300px %>
+    <% end %>
+
+  <%# End of check for current user's entry %>
+  <% end %>
 <% end %>
 
 <p>
